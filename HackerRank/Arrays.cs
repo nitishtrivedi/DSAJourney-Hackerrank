@@ -393,6 +393,35 @@ namespace HackerRank
             > For optimization, try a two-pointer approach: start from both ends and move inward, updating the max left and right as you go.
          */
 
-        public static void TappingRainWater() { }
+        public static void TappingRainWater()
+        {
+            int[] heights = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1];
+            int units = 0;
+            if (heights == null || heights.Length < 2) units = 0;
+
+            int n = heights.Length;
+            int[] leftMax = new int[n];
+            int[] rightMax = new int[n];
+
+            leftMax[0] = heights[0];
+            for (int i = 1; i < n; i++)
+            {
+                leftMax[i] = Math.Max(leftMax[i - 1], heights[i]);
+            }
+
+            rightMax[n - 1] = heights[n - 1];
+            for (int i = n - 2;  i >= 0; i--)
+            {
+                rightMax[i] = Math.Max(rightMax[i + 1], heights[i]);
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                int waterAtSpot = Math.Min(leftMax[i], rightMax[i] ) - heights[i];
+                if (waterAtSpot > 0) units += waterAtSpot;
+            }
+
+            Console.WriteLine($"Maximum Water Trapped: {units}");
+        }
     }
 }
